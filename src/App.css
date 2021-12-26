@@ -1,0 +1,10 @@
+/* .App {
+  text-align: center;
+} */
+
+.route_child {
+  position: absolute;
+  top: 5rem;
+  left: 18rem;
+  width: 85%;
+}
