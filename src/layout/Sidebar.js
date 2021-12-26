@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import userImg from "../assets/user.svg";
 import "./Sidebar.css";
 
@@ -10,21 +11,21 @@ const Sidebar = () => {
           <div className="Sidebar_img_container">
             <img src={userImg} alt="user_logo" />
           </div>
-          <a href="#">
+          <Link to="/">
             <span>App-Manager</span>
-          </a>
+          </Link>
         </li>
         <li className="Sidebar_list-component">
-          <a href="#">
+          <Link to="/users">
             <i className="fas fa-mobile-alt"></i>
             <span>Applications</span>
-          </a>
+          </Link>
         </li>
         <li className="Sidebar_list-component">
-          <a href="#">
+          <Link to="/users">
             <i className="fas fa-user"></i>
             <span>Users</span>
-          </a>
+          </Link>
         </li>
       </ul>
     </div>

@@ -26,6 +26,7 @@
 
 .Sidebar_list-component {
   padding: 0.75rem;
+  transition: all 0.5s;
 }
 
 .Sidebar_list-component:hover {

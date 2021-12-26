@@ -1,0 +1,56 @@
+.Login-form {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(215deg, rgb(92, 102, 233), rgb(176, 8, 218));
+}
+
+.Login-form-component {
+  padding: 2.5rem 2rem;
+  border-radius: 2rem;
+  background-color: var(--white-color);
+}
+
+.Login-form-component h2 {
+  text-align: center;
+  margin: 0.5rem 0 2rem 0;
+}
+
+.Login-form-component label {
+  font-size: 0.9rem;
+  margin: 1rem 0 0.5rem 0;
+  color: var(--grey-color);
+}
+
+.Input-container {
+  margin: 0.5rem 0;
+  border-bottom: 1px solid var(--grey-color);
+  color: var(--grey-color);
+}
+
+.Input {
+  padding: 0.35rem 0.5rem;
+  border: none;
+}
+.Input:focus {
+  outline: none;
+}
+
+.Login-btn {
+  display: block;
+  width: 100%;
+  margin-top: 2rem;
+  padding: 0.5rem;
+  border-radius: 0.85rem;
+  border: none;
+  color: white;
+  font-weight: bold;
+  background: linear-gradient(215deg, rgb(92, 102, 233), rgb(176, 8, 218));
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.Login-btn:hover {
+  opacity: 0.8;
+}

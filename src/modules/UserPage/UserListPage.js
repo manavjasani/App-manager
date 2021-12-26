@@ -11,15 +11,19 @@ const UserListPage = () => {
 
   useEffect(() => {
     dispatch(clearUser());
-    dispatch(getUserAction());
+    setTimeout(() => {
+      dispatch(getUserAction());
+    }, 100);
   }, [dispatch]);
 
   const getUser = useSelector((state) => state.user.getUsers);
   console.log("getUser", getUser);
-  const users = Object.entries(getUser).map(([key, value]) => ({
-    key: key,
-    value: value,
-  }));
+  const users =
+    getUser &&
+    Object.entries(getUser).map(([key, value]) => ({
+      key: key,
+      value: value,
+    }));
   console.log("users", users);
 
   const editButtonHandler = (i) => {
@@ -39,7 +43,6 @@ const UserListPage = () => {
           users.map((item) => {
             return (
               <div key={item.key} className="user-list-component">
-                <img src={item.value.image} />
                 <span>{item.value.name}</span>
                 <span>{item.value.userRol}</span>
                 <span>{item.value.email}</span>

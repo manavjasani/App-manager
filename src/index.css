@@ -24,4 +24,6 @@ code {
   --dark-primary-color: #603699;
   --white-color: #ffffff;
   --red-color: red;
+  --dark-red-color: rgb(145, 5, 5);
+  --grey-color: grey;
 }
