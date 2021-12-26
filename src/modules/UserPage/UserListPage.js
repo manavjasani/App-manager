@@ -1,19 +1,30 @@
 import React, { useEffect } from "react";
 import "./UserPage.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserAction } from "../../store/slice/userSlice";
+import { clearUser, getUserAction } from "../../store/slice/userSlice";
 
 const UserListPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    dispatch(clearUser());
     dispatch(getUserAction());
   }, [dispatch]);
 
   const getUser = useSelector((state) => state.user.getUsers);
-  const users = Object.values(getUser);
+  console.log("getUser", getUser);
+  const users = Object.entries(getUser).map(([key, value]) => ({
+    key: key,
+    value: value,
+  }));
   console.log("users", users);
+
+  const editButtonHandler = (i) => {
+    navigate(`edit-user/${i}`);
+  };
 
   return (
     <div className="App-manager-main-content">
@@ -23,15 +34,21 @@ const UserListPage = () => {
           <span>Add User</span>
         </Link>
       </div>
-      <div>
+      <div className="user-list">
         {users &&
-          users.map((item, i) => {
+          users.map((item) => {
             return (
-              <div key={i}>
-                <span>{item.name}</span>
-                <span>{item.userRol}</span>
-                <span>{item.email}</span>
-                <Link to={`/edit-user/${i}`}>Edit</Link>
+              <div key={item.key} className="user-list-component">
+                <img src={item.value.image} />
+                <span>{item.value.name}</span>
+                <span>{item.value.userRol}</span>
+                <span>{item.value.email}</span>
+                <button
+                  onClick={() => editButtonHandler(item.key)}
+                  className="edit-link"
+                >
+                  Edit
+                </button>
               </div>
             );
           })}

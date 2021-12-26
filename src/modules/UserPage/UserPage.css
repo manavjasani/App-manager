@@ -99,3 +99,42 @@
   color: var(--red-color);
   font-size: 0.8rem;
 }
+
+/* ---user-page css--- */
+
+.user-list {
+  display: flex;
+  flex-basis: 15rem;
+  flex-wrap: wrap;
+}
+
+.user-list-component {
+  width: 15rem;
+  background-color: var(--light-primary-color);
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-list-component span {
+  color: var(--dark-primary-color);
+  padding: 0.5rem 0;
+}
+
+.edit-link {
+  text-decoration: none;
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  padding: 0.5rem 0.75rem;
+  margin: 0.5rem 0;
+  border: none;
+  border-radius: 0.2rem;
+}
+
+.edit-link:hover {
+  background-color: var(--white-color);
+  color: var(--dark-primary-color);
+}

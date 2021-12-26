@@ -1,18 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
-import { createUserAction, getUserAction } from "../../store/slice/userSlice";
+import { useNavigate, useParams } from "react-router";
+import {
+  createUserAction,
+  getUserAction,
+  updateUserAction,
+} from "../../store/slice/userSlice";
 import "./UserPage.css";
 
-const CreateUserPage = () => {
-  const [nameVal, setNameVal] = useState("");
-  const [emailVal, setEmailVal] = useState("");
+const CreateUserPage = ({ users }) => {
+  console.log("users", users);
+
+  const [nameVal, setNameVal] = useState(users?.name ? users?.name : "");
+  const [emailVal, setEmailVal] = useState(users?.email ? users?.email : "");
   const [userRoleVal, setUserRoleVal] = useState({ value: "admin" });
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(users?.image ? users?.image : "");
   const [imagePreview, setImagePreview] = useState("");
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState(
+    users?.userName ? users?.userName : ""
+  );
   const [passwordVal, setPasswordVal] = useState("");
   const [cPasswordVal, setCPasswordVal] = useState("");
+
+  const params = useParams();
+  const { i } = params;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -53,6 +64,7 @@ const CreateUserPage = () => {
   const passwordValChangeHandler = (e) => {
     setPasswordVal(e.target.value);
     setPasswordErr("");
+    setErr("");
   };
 
   const [passwordErr, setPasswordErr] = useState("");
@@ -60,6 +72,7 @@ const CreateUserPage = () => {
   const cPasswordValChangeHandler = (e) => {
     setCPasswordVal(e.target.value);
     setCPasswordErr("");
+    setErr("");
   };
 
   const [cPasswordErr, setCPasswordErr] = useState("");
@@ -95,15 +108,20 @@ const CreateUserPage = () => {
         name: nameVal,
         email: emailVal,
         userRol: userRoleVal.value,
-        image: image,
+        image: image.name,
         userName: userName,
         password: passwordVal,
         conPassword: cPasswordVal,
       };
 
+      if (users && i) {
+        dispatch(updateUserAction({ id: i, data }));
+        navigate("/");
+      } else {
+        dispatch(createUserAction(data));
+        navigate("/");
+      }
       console.log("data", data);
-      dispatch(createUserAction(data));
-      navigate("/");
     }
   };
 
@@ -198,9 +216,21 @@ const CreateUserPage = () => {
         {err && <span className="err-msg">{err}</span>}
 
         <div className="btn-container">
-          <button className="comman-btn" onClick={(e) => userSubmitHandler(e)}>
-            Submit
-          </button>
+          {i ? (
+            <button
+              className="comman-btn"
+              onClick={(e) => userSubmitHandler(e)}
+            >
+              Update
+            </button>
+          ) : (
+            <button
+              className="comman-btn"
+              onClick={(e) => userSubmitHandler(e)}
+            >
+              Submit
+            </button>
+          )}
           <button className="comman-btn" onClick={cancelBtnHandler}>
             Cancel
           </button>
