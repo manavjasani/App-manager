@@ -10,7 +10,6 @@ export const loginAction = createAsyncThunk(
         data
       );
       console.log("response", response);
-
       return response.data;
     } catch (err) {
       console.log("err", err.response);

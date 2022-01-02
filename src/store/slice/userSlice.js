@@ -1,6 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import { db, storage } from "../../firebaseConfig";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
@@ -64,10 +71,8 @@ export const updateUserAction = createAsyncThunk(
   "updateUserAction",
   async (data, thunkAPI) => {
     try {
-      const response = await axios.put(
-        `https://app-manager-28ce3-default-rtdb.firebaseio.com/userData/${data.id}.json`,
-        data.data
-      );
+      const userDoc = doc(db, "userData", data.id);
+      const response = await updateDoc(userDoc, data.data);
       console.log("updateUserActionresponse", response);
       return response.data;
     } catch (error) {
@@ -76,6 +81,25 @@ export const updateUserAction = createAsyncThunk(
     }
   }
 );
+
+// export const updateUserAction = createAsyncThunk(
+//   "updateUserAction",
+//   async (data, thunkAPI) => {
+//     const usersCollection = collection(db, "userData");
+
+//     try {
+//       const response = await axios.put(
+//         `https://app-manager-28ce3-default-rtdb.firebaseio.com/userData/${data.id}.json`,
+//         data.data
+//       );
+//       console.log("updateUserActionresponse", response);
+//       return response.data;
+//     } catch (error) {
+//       console.log("error", error);
+//       thunkAPI.rejectWithValue(error);
+//     }
+//   }
+// );
 
 export const getUserAction = createAsyncThunk(
   "getUserAction",
@@ -114,18 +138,41 @@ export const getUserAction = createAsyncThunk(
 export const getUserDetail = createAsyncThunk(
   "getUserDetail",
   async (id, thunkAPI) => {
+    const usersCollection = collection(db, "userData");
     try {
-      const response = await axios.get(
-        `https://app-manager-28ce3-default-rtdb.firebaseio.com/userData/${id}.json`
-      );
-      console.log("getUserDetailresponse", response.data);
-      return response.data;
+      const docRef = doc(db, "userData", id);
+      const docSnap = await getDoc(docRef);
+      // const data = doc(usersCollection, id);
+      console.log("data", docSnap);
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+
+      return docSnap.data();
     } catch (error) {
       console.log("error", error);
       thunkAPI.rejectWithValue(error);
     }
   }
 );
+// export const getUserDetail = createAsyncThunk(
+//   "getUserDetail",
+//   async (id, thunkAPI) => {
+//     try {
+//       const response = await axios.get(
+//         `https://app-manager-28ce3-default-rtdb.firebaseio.com/userData/${id}.json`
+//       );
+//       console.log("getUserDetailresponse", response.data);
+//       return response.data;
+//     } catch (error) {
+//       console.log("error", error);
+//       thunkAPI.rejectWithValue(error);
+//     }
+//   }
+// );
 
 export const clearUser = createAsyncThunk("clearUser", async (id, thunkAPI) => {
   return;

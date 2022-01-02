@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import userImg from "../assets/user.svg";
-import "./Sidebar.css";
+import "./Layout.css";
 
-const Sidebar = () => {
+const Sidebar = ({ sideToggle }) => {
+  console.log("sideToggle", sideToggle);
   return (
     <div className="Sidebar">
       <ul>

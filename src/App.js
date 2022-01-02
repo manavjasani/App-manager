@@ -30,8 +30,8 @@ function App() {
       <Connector />
       <div className="route_child">
         <Routes>
-          {/* <Route path="/" element={<LoginPage />} /> */}
-          <Route path="users" element={<UserListPage />} />
+          <Route path="/" element={<UserListPage />} />
+          <Route path="/users" element={<UserListPage />} />
           <Route path="create-user" element={<CreateUserPage />} />
           <Route path="users/edit-user/:i" element={<EditUserPage />} />
         </Routes>

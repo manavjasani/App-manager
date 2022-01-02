@@ -130,7 +130,7 @@ const CreateUserPage = ({ users }) => {
   };
 
   const cancelBtnHandler = () => {
-    navigate("/");
+    navigate("/users");
   };
 
   return (

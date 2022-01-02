@@ -1,12 +1,18 @@
-import React from "react";
-import "./Navbar.css";
+import React, { useState } from "react";
+import "./Layout.css";
 
 const Navbar = () => {
+  const [sideToggle, setSideToggle] = useState(false);
+
+  const sideToggleHandler = () => {
+    setSideToggle(!sideToggle);
+  };
+
   return (
     <div className="Navbar">
       <ul className="Navbar_list">
         <li>
-          <a href="#">
+          <a onClick={sideToggleHandler}>
             <i className="fas fa-bars"></i>
           </a>
         </li>
