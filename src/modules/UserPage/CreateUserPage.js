@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import {
   createUserAction,
-  getUserAction,
+  fileUploadAction,
   updateUserAction,
 } from "../../store/slice/userSlice";
 import "./UserPage.css";
@@ -28,6 +28,9 @@ const CreateUserPage = ({ users }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const url = useSelector((state) => state.user.url);
+  console.log("url***", url);
+
   const nameChangeHandler = (e) => {
     setNameVal(e.target.value);
     setNameErr("");
@@ -47,8 +50,9 @@ const CreateUserPage = ({ users }) => {
   };
 
   const imageChangeHandler = (e) => {
-    setImage(e.target.files[0]);
-    setImagePreview(URL.createObjectURL(e.target.files[0]));
+    const image = e.target.files[0];
+    dispatch(fileUploadAction(image));
+    // setImagePreview(URL.createObjectURL(e.target.files[0]));
   };
 
   console.log("imagePreview", imagePreview);
@@ -108,10 +112,10 @@ const CreateUserPage = ({ users }) => {
         name: nameVal,
         email: emailVal,
         userRol: userRoleVal.value,
-        image: image.name,
         userName: userName,
         password: passwordVal,
         conPassword: cPasswordVal,
+        image: url,
       };
 
       if (users && i) {

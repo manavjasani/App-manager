@@ -1,22 +1,64 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { collection, getDocs, addDoc } from "firebase/firestore";
+import { db, storage } from "../../firebaseConfig";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 export const createUserAction = createAsyncThunk(
   "createUserAction",
   async (data, thunkAPI) => {
     try {
-      const response = await axios.post(
-        `https://app-manager-28ce3-default-rtdb.firebaseio.com/userData.json`,
-        data
-      );
+      const collectionUsers = collection(db, "userData");
+      const response = await addDoc(collectionUsers, data);
       console.log("createUserActionresponse", response);
-      return response.config.data;
+      return response;
     } catch (error) {
       console.log("error", error);
       thunkAPI.rejectWithValue(error);
     }
   }
 );
+
+export const fileUploadAction = createAsyncThunk(
+  "fileUploadAction",
+  (image, thunkAPI) => {
+    try {
+      const storageRef = ref(storage, `/images/${image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+      const imageUpload = uploadTask.on(
+        "state_changed",
+        console.log("res"),
+        (err) => console.log(err),
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((url) =>
+            console.log(url)
+          );
+        }
+      );
+      return imageUpload;
+    } catch (error) {
+      console.log("error", error);
+      thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+// export const createUserAction = createAsyncThunk(
+//   "createUserAction",
+//   async (data, thunkAPI) => {
+//     try {
+//       const response = await axios.post(
+//         `https://app-manager-28ce3-default-rtdb.firebaseio.com/userData.json`,
+//         data
+//       );
+//       console.log("createUserActionresponse", response);
+//       return response.config.data;
+//     } catch (error) {
+//       console.log("error", error);
+//       thunkAPI.rejectWithValue(error);
+//     }
+//   }
+// );
 
 export const updateUserAction = createAsyncThunk(
   "updateUserAction",
@@ -38,18 +80,36 @@ export const updateUserAction = createAsyncThunk(
 export const getUserAction = createAsyncThunk(
   "getUserAction",
   async (data, thunkAPI) => {
+    const usersCollection = collection(db, "userData");
     try {
-      const response = await axios.get(
-        `https://app-manager-28ce3-default-rtdb.firebaseio.com/userData.json`
-      );
-      console.log("getUserActionresponse", response.data);
-      return response.data;
+      const response = await getDocs(usersCollection);
+      const resData = response.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      console.log("getUserActionresponse", resData);
+      return resData;
     } catch (error) {
       console.log("error", error);
       thunkAPI.rejectWithValue(error);
     }
   }
 );
+// export const getUserAction = createAsyncThunk(
+//   "getUserAction",
+//   async (data, thunkAPI) => {
+//     try {
+//       const response = await axios.get(
+//         `https://app-manager-28ce3-default-rtdb.firebaseio.com/userData.json`
+//       );
+//       console.log("getUserActionresponse", response.data);
+//       return response.data;
+//     } catch (error) {
+//       console.log("error", error);
+//       thunkAPI.rejectWithValue(error);
+//     }
+//   }
+// );
 
 export const getUserDetail = createAsyncThunk(
   "getUserDetail",
@@ -78,6 +138,7 @@ const userSlice = createSlice({
     userDetail: null,
     createUser: null,
     updateUser: null,
+    url: null,
     error: null,
     loader: false,
   },
@@ -124,6 +185,17 @@ const userSlice = createSlice({
       state.userDetail = action.payload;
     },
     [getUserDetail.rejected]: (state, action) => {
+      state.loader = false;
+      state.error = action.payload;
+    },
+    [fileUploadAction.pending]: (state, action) => {
+      state.loader = true;
+    },
+    [fileUploadAction.fulfilled]: (state, action) => {
+      state.loader = false;
+      state.url = action.payload;
+    },
+    [fileUploadAction.rejected]: (state, action) => {
       state.loader = false;
       state.error = action.payload;
     },

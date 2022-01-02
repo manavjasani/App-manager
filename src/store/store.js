@@ -6,6 +6,10 @@ const store = configureStore({
     user: userSlice,
   },
   devTools: true,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export default store;

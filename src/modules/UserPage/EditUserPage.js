@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
-import { getUserAction, getUserDetail } from "../../store/slice/userSlice";
+import { useParams } from "react-router";
+import { getUserDetail } from "../../store/slice/userSlice";
 import CreateUserPage from "./CreateUserPage";
 
 const EditUserPage = () => {

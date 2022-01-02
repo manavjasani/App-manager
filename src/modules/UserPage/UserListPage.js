@@ -1,13 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./UserPage.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser, getUserAction } from "../../store/slice/userSlice";
+import { storage } from "../../firebaseConfig";
+import { getStorage, ref } from "firebase/storage";
 
 const UserListPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // const [users, setUsers] = useState([])
 
   useEffect(() => {
     dispatch(clearUser());
@@ -18,13 +22,6 @@ const UserListPage = () => {
 
   const getUser = useSelector((state) => state.user.getUsers);
   console.log("getUser", getUser);
-  const users =
-    getUser &&
-    Object.entries(getUser).map(([key, value]) => ({
-      key: key,
-      value: value,
-    }));
-  console.log("users", users);
 
   const editButtonHandler = (i) => {
     navigate(`edit-user/${i}`);
@@ -39,15 +36,16 @@ const UserListPage = () => {
         </Link>
       </div>
       <div className="user-list">
-        {users &&
-          users.map((item) => {
+        {getUser &&
+          getUser.map((item) => {
             return (
-              <div key={item.key} className="user-list-component">
-                <span>{item.value.name}</span>
-                <span>{item.value.userRol}</span>
-                <span>{item.value.email}</span>
+              <div key={item.id} className="user-list-component">
+                <img />
+                <span>{item.name}</span>
+                <span>{item.userRol}</span>
+                <span>{item.email}</span>
                 <button
-                  onClick={() => editButtonHandler(item.key)}
+                  onClick={() => editButtonHandler(item.id)}
                   className="edit-link"
                 >
                   Edit
