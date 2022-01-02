@@ -1,7 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAction } from "../../store/slice/loginSlice";
 import "./LoginPage.css";
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+
+  const userNameHandler = (e) => {
+    setUserName(e.target.value);
+  };
+
+  const passwordHandler = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const loginHandler = (e) => {
+    e.preventDefault();
+
+    const data = {
+      email: userName,
+      password: password,
+      returnSecureToken: true,
+    };
+    console.log("data", data);
+    dispatch(loginAction(data));
+  };
+
   return (
     <div className="Login-form">
       <div className="Login-form-component">
@@ -15,6 +42,8 @@ const LoginPage = () => {
               id="username"
               type="text"
               placeholder="Type your username"
+              value={userName}
+              onChange={userNameHandler}
             />
           </div>
         </div>
@@ -27,10 +56,14 @@ const LoginPage = () => {
               id="password"
               type="text"
               placeholder="Type your password"
+              value={password}
+              onChange={passwordHandler}
             />
           </div>
         </div>
-        <button className="Login-btn">LOGIN</button>
+        <button className="Login-btn" onClick={loginHandler}>
+          LOGIN
+        </button>
       </div>
     </div>
   );
