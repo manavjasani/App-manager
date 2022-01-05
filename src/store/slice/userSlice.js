@@ -17,7 +17,6 @@ export const createUserAction = createAsyncThunk(
     try {
       const collectionUsers = collection(db, "userData");
       const response = await addDoc(collectionUsers, data);
-      console.log("createUserActionresponse", response);
       return response;
     } catch (error) {
       console.log("error", error);
@@ -29,6 +28,8 @@ export const createUserAction = createAsyncThunk(
 export const fileUploadAction = createAsyncThunk(
   "fileUploadAction",
   (image, thunkAPI) => {
+    let url;
+
     try {
       const storageRef = ref(storage, `/images/${image.name}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
@@ -37,12 +38,12 @@ export const fileUploadAction = createAsyncThunk(
         console.log("res"),
         (err) => console.log(err),
         () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((url) =>
-            console.log(url)
+          getDownloadURL(uploadTask.snapshot.ref).then((res) =>
+            console.log(res, "res")((url = res))
           );
         }
       );
-      return imageUpload;
+      return url;
     } catch (error) {
       console.log("error", error);
       thunkAPI.rejectWithValue(error);

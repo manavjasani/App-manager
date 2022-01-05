@@ -120,10 +120,10 @@ const CreateUserPage = ({ users }) => {
 
       if (users && i) {
         dispatch(updateUserAction({ id: i, data }));
-        navigate("/");
+        navigate("/users");
       } else {
         dispatch(createUserAction(data));
-        navigate("/");
+        navigate("/users");
       }
       console.log("data", data);
     }
