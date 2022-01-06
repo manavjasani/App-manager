@@ -51,8 +51,18 @@ const CreateUserPage = ({ users }) => {
 
   const imageChangeHandler = (e) => {
     const image = e.target.files[0];
-    dispatch(fileUploadAction(image));
-    // setImagePreview(URL.createObjectURL(e.target.files[0]));
+    dispatch(
+      fileUploadAction({
+        image,
+        cb: (uploadErr, uploadRes) => {
+          if (uploadErr) {
+            console.log("uploadErr", uploadErr);
+          } else {
+            setImage(uploadRes);
+          }
+        },
+      })
+    );
   };
 
   console.log("imagePreview", imagePreview);
@@ -115,7 +125,7 @@ const CreateUserPage = ({ users }) => {
         userName: userName,
         password: passwordVal,
         conPassword: cPasswordVal,
-        image: url,
+        image: image,
       };
 
       if (users && i) {

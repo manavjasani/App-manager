@@ -6,10 +6,15 @@ import CreateUserPage from "./modules/UserPage/CreateUserPage";
 import EditUserPage from "./modules/UserPage/EditUserPage";
 import LoginPage from "./modules/LoginPage/LoginPage";
 import { useSelector } from "react-redux";
+import { useRoutes } from "react-router";
 
 function App() {
   const userAuth = useSelector((state) => state.login.isUser);
   console.log("userAuth", userAuth);
+
+  // const routing = useRoutes(getRoutes(user));
+
+  // return <>{routing}</>;
 
   // if (!userAuth) {
   //   return (

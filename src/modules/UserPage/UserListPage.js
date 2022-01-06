@@ -40,7 +40,15 @@ const UserListPage = () => {
           getUser.map((item) => {
             return (
               <div key={item.id} className="user-list-component">
-                <img />
+                {item.image && (
+                  <img
+                    className="user-image"
+                    src={item.image}
+                    alt="user"
+                    width={50}
+                    height={50}
+                  />
+                )}
                 <span>{item.name}</span>
                 <span>{item.userRol}</span>
                 <span>{item.email}</span>

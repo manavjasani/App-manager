@@ -28,22 +28,24 @@ export const createUserAction = createAsyncThunk(
 export const fileUploadAction = createAsyncThunk(
   "fileUploadAction",
   (image, thunkAPI) => {
-    let url;
+    // let url;
 
     try {
-      const storageRef = ref(storage, `/images/${image.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, image);
+      const storageRef = ref(storage, `/images/${image.image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image.image);
       const imageUpload = uploadTask.on(
         "state_changed",
         console.log("res"),
         (err) => console.log(err),
         () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((res) =>
-            console.log(res, "res")((url = res))
-          );
+          getDownloadURL(uploadTask.snapshot.ref).then((res) => {
+            if (image.cb) {
+              return image.cb(null, res);
+            }
+          });
         }
       );
-      return url;
+      // return url;
     } catch (error) {
       console.log("error", error);
       thunkAPI.rejectWithValue(error);
