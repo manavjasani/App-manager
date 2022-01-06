@@ -1,20 +1,40 @@
 import "./App.css";
 import Connector from "./layout/Connector";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import UserListPage from "./modules/UserPage/UserListPage";
 import CreateUserPage from "./modules/UserPage/CreateUserPage";
 import EditUserPage from "./modules/UserPage/EditUserPage";
 import LoginPage from "./modules/LoginPage/LoginPage";
 import { useSelector } from "react-redux";
-import { useRoutes } from "react-router";
+import { Navigate, useRoutes } from "react-router";
+import DashboardPage from "./modules/DashboardPage/DashboardPage";
 
 function App() {
   const userAuth = useSelector((state) => state.login.isUser);
   console.log("userAuth", userAuth);
 
-  // const routing = useRoutes(getRoutes(user));
+  const routing = useRoutes([
+    {
+      path: "/",
+      element: !userAuth ? <LoginPage /> : <Navigate to="/dashboard" />,
+      children: [
+        { path: "login", element: <LoginPage /> },
+        { path: "/", element: <Navigate to="/login" /> },
+      ],
+    },
+    {
+      path: "/",
+      element: userAuth ? <Connector /> : <Navigate to="/login" />,
+      children: [
+        { path: "dashboard", element: <DashboardPage /> },
+        { path: "users", element: <UserListPage /> },
+        { path: "create-user", element: <CreateUserPage /> },
+        { path: "users/edit-user/:i", element: <EditUserPage /> },
+      ],
+    },
+  ]);
 
-  // return <>{routing}</>;
+  return <>{routing}</>;
 
   // if (!userAuth) {
   //   return (
@@ -24,25 +44,33 @@ function App() {
   //   );
   // }
 
-  return (
-    <BrowserRouter>
-      {/* <Route path="/" element={<LoginPage />} /> */}
-      {!userAuth && (
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-        </Routes>
-      )}
-      <Connector />
-      <div className="route_child">
-        <Routes>
-          {/* <Route path="/" element={<UserListPage />} /> */}
-          <Route path="/users" element={<UserListPage />} />
-          <Route path="create-user" element={<CreateUserPage />} />
-          <Route path="users/edit-user/:i" element={<EditUserPage />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
-  );
+  // return (
+  //   <BrowserRouter>
+  //     {/* <Route path="/" element={<LoginPage />} /> */}
+  //     {!userAuth && (
+  //       <Routes>
+  //         <Route path="/" element={<LoginPage />} />
+  //       </Routes>
+  //     )}
+  //     <Connector />
+  //     <div className="route_child">
+  //       <Routes>
+  //         <Route path="/" index element={<UserListPage />} />
+  //         <Route path="/users" element={<UserListPage />} />
+  //         <Route path="/create-user" element={<CreateUserPage />} />
+  //         <Route path="users/edit-user/:i" element={<EditUserPage />} />
+  //       </Routes>
+  //     </div>
+  //   </BrowserRouter>
+  // );
 }
 
-export default App;
+const AppWrapper = () => {
+  return (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
+};
+
+export default AppWrapper;

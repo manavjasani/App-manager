@@ -9,7 +9,10 @@ export const loginAction = createAsyncThunk(
         "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAgyAy8iNEtI97kUsE05-JkzFPng1Zw3TE",
         data
       );
-      console.log("response", response);
+      console.log("response", response.data);
+      localStorage.setItem("token", response.data.refreshToken);
+      localStorage.setItem("id", response.data.idToken);
+      localStorage.setItem("expirationDate", response.data.expiresIn);
       return response.data;
     } catch (err) {
       console.log("err", err.response);

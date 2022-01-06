@@ -17,7 +17,7 @@ const Navbar = () => {
           </a>
         </li>
         <li className="Navbar_list-logout">
-          <a href="#">
+          <a href="/login">
             <i className="fas fa-sign-out-alt"></i>
             <span>Logout</span>
           </a>

@@ -4,7 +4,6 @@ import userImg from "../assets/user.svg";
 import "./Layout.css";
 
 const Sidebar = ({ sideToggle }) => {
-  console.log("sideToggle", sideToggle);
   return (
     <div className="Sidebar">
       <ul>
