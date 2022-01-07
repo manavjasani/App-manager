@@ -11,12 +11,12 @@ const Sidebar = ({ sideToggle }) => {
           <div className="Sidebar_img_container">
             <img src={userImg} alt="user_logo" />
           </div>
-          <Link to="/">
+          <Link to="/dashboard">
             <span>App-Manager</span>
           </Link>
         </li>
         <li className="Sidebar_list-component">
-          <Link to="/users">
+          <Link to="/applications">
             <i className="fas fa-mobile-alt"></i>
             <span>Applications</span>
           </Link>

@@ -10,6 +10,8 @@ import { Navigate, useRoutes } from "react-router";
 import DashboardPage from "./modules/DashboardPage/DashboardPage";
 import { useEffect } from "react";
 import { authState } from "./store/slice/loginSlice";
+import ListAppPage from "./modules/AppPage/ListAppPage";
+import CreateAppPage from "./modules/AppPage/CreateAppPage";
 
 function App() {
   const userAuth = useSelector((state) => state.login.isUser);
@@ -42,6 +44,9 @@ function App() {
         { path: "users", element: <UserListPage /> },
         { path: "create-user", element: <CreateUserPage /> },
         { path: "users/edit-user/:i", element: <EditUserPage /> },
+
+        { path: "applications", element: <ListAppPage /> },
+        { path: "create-application", element: <CreateAppPage /> },
       ],
     },
   ]);

@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser, getUserAction } from "../../store/slice/userSlice";
-import { storage } from "../../firebaseConfig";
-import { getStorage, ref } from "firebase/storage";
 
 const UserListPage = () => {
   const dispatch = useDispatch();

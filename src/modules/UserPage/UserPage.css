@@ -53,7 +53,8 @@
 }
 
 .Create_user-input input:not([type="file"]),
-.user_select {
+.user_select,
+.Create_user-input textarea {
   padding: 0.5rem 0.75rem;
   border-radius: 0.2rem;
   border: none;
