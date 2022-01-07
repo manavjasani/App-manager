@@ -21,6 +21,44 @@ export const loginAction = createAsyncThunk(
   }
 );
 
+// export const authState = createAsyncThunk("authState", async () => {
+//   const storedToken = localStorage.getItem("token");
+//   const storedExpirationTime = localStorage.getItem("expirationDate");
+
+//   return {
+//     token: storedToken,
+//     expireTime: storedExpirationTime,
+//   };
+// });
+
+// export const authCheckState = createAsyncThunk("authCheckState", () => {
+//   return (dispatch) => {
+//     const token = localStorage.getItem("token");
+//     // const id = localStorage.getItem("id");
+//     if (!token) {
+//       console.log("No token && no id");
+//       // dispatch(userLogout());
+//     } else {
+//       const expirationDate = new Date(localStorage.getItem("expirationDate"));
+//       if (expirationDate.getTime() <= new Date().getTime()) {
+//         console.log("logout1");
+//         // dispatch(userLogout());
+//       } else {
+//         const userId = localStorage.getItem("id");
+//         console.log(
+//           ((expirationDate.getTime() - new Date().getTime()) / 1000) * 500
+//         );
+//         // dispatch({ type: USERS.LOGIN_SUCCESS, token: token, id: userId });
+//         // dispatch(
+//         //   checkAuthTimeout(
+//         //     ((expirationDate.getTime() - new Date().getTime()) / 1000) * 500
+//         //   )
+//         // );
+//       }
+//     }
+//   };
+// });
+
 const authSlice = createSlice({
   name: "authSlice",
   initialState: {
