@@ -5,27 +5,14 @@ import UserListPage from "./modules/UserPage/UserListPage";
 import CreateUserPage from "./modules/UserPage/CreateUserPage";
 import EditUserPage from "./modules/UserPage/EditUserPage";
 import LoginPage from "./modules/LoginPage/LoginPage";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Navigate, useRoutes } from "react-router";
 import DashboardPage from "./modules/DashboardPage/DashboardPage";
-import { useEffect } from "react";
-import { authState } from "./store/slice/loginSlice";
 import ListAppPage from "./modules/AppPage/ListAppPage";
 import CreateAppPage from "./modules/AppPage/CreateAppPage";
 
 function App() {
   const userAuth = useSelector((state) => state.login.isUser);
-  console.log("userAuth", userAuth);
-
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(authState());
-  // }, []);
-
-  // useEffect(() => {
-  //   userAuth && localStorage.getItem("id");
-  //   console.log("id", localStorage.getItem("id"));
-  // }, []);
 
   const routing = useRoutes([
     {
