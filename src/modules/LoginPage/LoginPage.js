@@ -54,7 +54,7 @@ const LoginPage = () => {
             <input
               className="Input"
               id="password"
-              type="text"
+              type="password"
               placeholder="Type your password"
               value={password}
               onChange={passwordHandler}
