@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../../firebaseConfig";
 
@@ -43,10 +43,30 @@ export const appIconUploadAction = createAsyncThunk(
   }
 );
 
+export const getAppAction = createAsyncThunk(
+  "getAppAction",
+  async (data, thunkAPI) => {
+    const usersCollection = collection(db, "appData");
+    try {
+      const response = await getDocs(usersCollection);
+      const resData = response.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      console.log("getAppActionresponse", resData);
+      return resData;
+    } catch (error) {
+      console.log("error", error);
+      thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 const appSlice = createSlice({
   name: "appDataSlice",
   initialState: {
     createApp: null,
+    getApps: [],
     error: null,
     loader: false,
   },
@@ -60,6 +80,17 @@ const appSlice = createSlice({
       state.createApp = action.payload;
     },
     [createAppAction.rejected]: (state, action) => {
+      state.loader = false;
+      state.error = action.payload;
+    },
+    [getAppAction.pending]: (state, action) => {
+      state.loader = true;
+    },
+    [getAppAction.fulfilled]: (state, action) => {
+      state.loader = false;
+      state.getApps = action.payload;
+    },
+    [getAppAction.rejected]: (state, action) => {
       state.loader = false;
       state.error = action.payload;
     },
