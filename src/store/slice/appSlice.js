@@ -1,5 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../../firebaseConfig";
 
@@ -62,11 +69,48 @@ export const getAppAction = createAsyncThunk(
   }
 );
 
+export const getAppDetailAction = createAsyncThunk(
+  "getAppDetailAction",
+  async (id, thunkAPI) => {
+    try {
+      const docRef = doc(db, "appData", id);
+      const docSnap = await getDoc(docRef);
+      console.log("docSnap", docSnap.data());
+      return docSnap.data();
+    } catch (error) {
+      console.log("error", error);
+      thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const updateAppAction = createAsyncThunk(
+  "updateAppAction",
+  async (data, thunkAPI) => {
+    try {
+      const docRef = doc(db, "appData", data.id);
+      const docSnap = await updateDoc(docRef, data.data);
+      return docSnap.data;
+    } catch (error) {
+      console.log("error", error);
+      thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const clearAppDetailAction = createAsyncThunk(
+  "clearAppDetailAction",
+  async (data, thunkAPI) => {
+    return;
+  }
+);
+
 const appSlice = createSlice({
   name: "appDataSlice",
   initialState: {
     createApp: null,
     getApps: [],
+    appDetail: null,
     error: null,
     loader: false,
   },
@@ -93,6 +137,20 @@ const appSlice = createSlice({
     [getAppAction.rejected]: (state, action) => {
       state.loader = false;
       state.error = action.payload;
+    },
+    [getAppDetailAction.pending]: (state, action) => {
+      state.loader = true;
+    },
+    [getAppDetailAction.fulfilled]: (state, action) => {
+      state.loader = false;
+      state.appDetail = action.payload;
+    },
+    [getAppDetailAction.rejected]: (state, action) => {
+      state.loader = false;
+      state.error = action.payload;
+    },
+    [clearAppDetailAction.fulfilled]: (state, action) => {
+      state.appDetail = null;
     },
   },
 });

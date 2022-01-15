@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import {
@@ -145,7 +145,7 @@ const CreateUserPage = ({ users }) => {
 
   return (
     <div className="App-manager-main-content">
-      <h2 className="user-head">Add User</h2>
+      <h2 className="user-head">{i ? "Edit User" : "Add User"}</h2>
       <div className="Create_user-page">
         <div className="Create_user-input">
           <label>Name</label>

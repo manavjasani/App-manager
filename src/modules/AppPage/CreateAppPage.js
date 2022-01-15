@@ -1,21 +1,36 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   appIconUploadAction,
   createAppAction,
+  updateAppAction,
 } from "../../store/slice/appSlice";
 
-const CreateAppPage = () => {
+const CreateAppPage = ({ appDetail }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const params = useParams();
+  const { i } = params;
 
-  const [appNameVal, setAppNameVal] = useState("");
-  const [appDescVal, setAppDescVal] = useState("");
-  const [platform, setPlatform] = useState({ value: "Both" });
-  const [appIconVal, setAppIconVal] = useState("");
-  const [iosIconVal, setIosIconVal] = useState("");
-  const [androidIconVal, setAndroidIconVal] = useState("");
+  const [appNameVal, setAppNameVal] = useState(
+    appDetail?.app ? appDetail?.app : ""
+  );
+  const [appDescVal, setAppDescVal] = useState(
+    appDetail?.appDesc ? appDetail?.appDesc : ""
+  );
+  const [platform, setPlatform] = useState(
+    appDetail?.platform ? { value: appDetail?.platform } : { value: "Both" }
+  );
+  const [appIconVal, setAppIconVal] = useState(
+    appDetail?.appIcon ? appDetail?.appIcon : ""
+  );
+  const [iosIconVal, setIosIconVal] = useState(
+    appDetail?.iosIcon ? appDetail?.iosIcon : ""
+  );
+  const [androidIconVal, setAndroidIconVal] = useState(
+    appDetail?.androidIcon ? appDetail?.androidIcon : ""
+  );
 
   const appNameChangeHandler = (e) => {
     setAppNameVal(e.target.value);
@@ -83,7 +98,12 @@ const CreateAppPage = () => {
       androidIcon: androidIconVal,
     };
     console.log("data", data);
-    dispatch(createAppAction(data));
+
+    {
+      i
+        ? dispatch(updateAppAction({ data, id: i }))
+        : dispatch(createAppAction(data));
+    }
     navigate("/applications");
   };
 
@@ -93,7 +113,9 @@ const CreateAppPage = () => {
 
   return (
     <div className="App-manager-main-content">
-      <h2 className="user-head">Add Application</h2>
+      <h2 className="user-head">
+        {i ? "Edit Application" : "Add Application"}
+      </h2>
       <div className="Create_user-page">
         <div className="Create_user-input">
           <label>Application Name</label>
@@ -161,18 +183,21 @@ const CreateAppPage = () => {
         </div>
 
         <div className="btn-container">
-          {/* {i ? (
+          {i ? (
             <button
               className="comman-btn"
               onClick={(e) => userSubmitHandler(e)}
             >
               Update
             </button>
-          ) : ( */}
-
-          <button className="comman-btn" onClick={(e) => userSubmitHandler(e)}>
-            Submit
-          </button>
+          ) : (
+            <button
+              className="comman-btn"
+              onClick={(e) => userSubmitHandler(e)}
+            >
+              Submit
+            </button>
+          )}
           <button className="comman-btn" onClick={cancelBtnHandler}>
             Cancel
           </button>
