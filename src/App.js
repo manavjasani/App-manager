@@ -11,6 +11,7 @@ import DashboardPage from "./modules/DashboardPage/DashboardPage";
 import ListAppPage from "./modules/AppPage/ListAppPage";
 import CreateAppPage from "./modules/AppPage/CreateAppPage";
 import EditAppPage from "./modules/AppPage/EditAppPage";
+import AppDetailPage from "./modules/AppPage/AppDetailPage";
 
 function App() {
   const userAuth = useSelector((state) => state.login.isUser);
@@ -36,6 +37,7 @@ function App() {
         { path: "applications", element: <ListAppPage /> },
         { path: "create-application", element: <CreateAppPage /> },
         { path: "applications/edit-application/:i", element: <EditAppPage /> },
+        { path: "applications/:i", element: <AppDetailPage /> },
       ],
     },
   ]);

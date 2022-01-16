@@ -25,10 +25,10 @@ const CreateAppPage = ({ appDetail }) => {
   const [appIconVal, setAppIconVal] = useState(
     appDetail?.appIcon ? appDetail?.appIcon : ""
   );
-  const [iosIconVal, setIosIconVal] = useState(
+  const [iosIconurl, setIosIconurl] = useState(
     appDetail?.iosIcon ? appDetail?.iosIcon : ""
   );
-  const [androidIconVal, setAndroidIconVal] = useState(
+  const [androidIconurl, setAndroidIconurl] = useState(
     appDetail?.androidIcon ? appDetail?.androidIcon : ""
   );
 
@@ -57,34 +57,10 @@ const CreateAppPage = ({ appDetail }) => {
     );
   };
   const iosIconChangeHandler = (e) => {
-    const iosIcon = e.target.files[0];
-    dispatch(
-      appIconUploadAction({
-        image: iosIcon,
-        cb: (uploadErr, uploadRes) => {
-          if (uploadErr) {
-            console.log("uploadErr", uploadErr);
-          } else {
-            setIosIconVal(uploadRes);
-          }
-        },
-      })
-    );
+    setIosIconurl(e.target.value);
   };
   const androidIconChangeHandler = (e) => {
-    const androidIcon = e.target.files[0];
-    dispatch(
-      appIconUploadAction({
-        image: androidIcon,
-        cb: (uploadErr, uploadRes) => {
-          if (uploadErr) {
-            console.log("uploadErr", uploadErr);
-          } else {
-            setAndroidIconVal(uploadRes);
-          }
-        },
-      })
-    );
+    setAndroidIconurl(e.target.value);
   };
 
   const userSubmitHandler = (e) => {
@@ -94,8 +70,8 @@ const CreateAppPage = ({ appDetail }) => {
       appDesc: appDescVal,
       platform: platform.value,
       appIcon: appIconVal,
-      iosIcon: iosIconVal,
-      androidIcon: androidIconVal,
+      iosIcon: iosIconurl,
+      androidIcon: androidIconurl,
     };
     console.log("data", data);
 
@@ -162,10 +138,9 @@ const CreateAppPage = ({ appDetail }) => {
         <div className="Create_user-input">
           <label>Ios Icon</label>
           <input
-            type="file"
-            accept="image/*"
-            name="iosImage"
-            className="image-input"
+            type="text"
+            name="iosUrl"
+            value={iosIconurl}
             onChange={iosIconChangeHandler}
           />
           {/* {iosIconErr && <span className="err-msg">{iosIconErr}</span>} */}
@@ -173,10 +148,9 @@ const CreateAppPage = ({ appDetail }) => {
         <div className="Create_user-input">
           <label>Android Icon</label>
           <input
-            type="file"
-            accept="image/*"
-            name="androidImage"
-            className="image-input"
+            type="text"
+            name="androidUrl"
+            value={androidIconurl}
             onChange={androidIconChangeHandler}
           />
           {/* {androidIconErr && <span className="err-msg">{androidIconErr}</span>} */}

@@ -11,14 +11,13 @@ const ListAppPage = () => {
   console.log("apps", apps);
 
   useEffect(() => {
-    console.log("abcd");
     dispatch(clearAppDetailAction());
     dispatch(getAppAction());
   }, []);
 
-  const editButtonHandler = (id) => {
-    navigate(`/applications/edit-application/${id}`);
-  };
+  // const editButtonHandler = (id) => {
+  //   navigate(`/applications/edit-application/${id}`);
+  // };
 
   return (
     <div className="App-manager-main-content">
@@ -28,30 +27,40 @@ const ListAppPage = () => {
           <span>Add App</span>
         </Link>
       </div>
-      <div className="user-list">
+      <div className="app-list">
         {apps &&
           apps.map((item) => {
             return (
-              <div key={item.id} className="user-list-component">
-                {item.appIcon && (
-                  <img
-                    className="user-image"
-                    src={item.appIcon}
-                    alt="user"
-                    width={50}
-                    height={50}
-                  />
-                )}
-                <span>{item.app}</span>
-                <span>{item.appDesc}</span>
-                <span>{item.platform}</span>
-                <button
-                  onClick={() => editButtonHandler(item.id)}
-                  className="edit-link"
-                >
-                  Edit
-                </button>
-              </div>
+              <Link
+                to={`/applications/${item.id}`}
+                key={item.id}
+                className="app-component"
+              >
+                <div className="app-list-component">
+                  <div>
+                    {item.appIcon && (
+                      <img
+                        className="user-image"
+                        src={item.appIcon}
+                        alt="user"
+                        width={50}
+                        height={50}
+                      />
+                    )}
+                  </div>
+                  <div className="app-list-disc">
+                    <span>{item.app}</span>
+                    <span></span>
+                    <span>{item.platform}</span>
+                  </div>
+                  {/* <button
+                    onClick={() => editButtonHandler(item.id)}
+                    className="edit-link edit-app"
+                  >
+                    Edit
+                  </button> */}
+                </div>
+              </Link>
             );
           })}
       </div>

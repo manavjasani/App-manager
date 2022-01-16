@@ -104,7 +104,8 @@
 
 /* ---user-page css--- */
 
-.user-list {
+.user-list,
+.app-list {
   display: flex;
   flex-basis: 15rem;
   flex-wrap: wrap;
@@ -137,6 +138,7 @@
   border: none;
   border-radius: 0.2rem;
   transition: all 0.5s;
+  cursor: pointer;
 }
 
 .edit-link:hover {
@@ -148,4 +150,110 @@
   width: 7rem;
   height: 7rem;
   margin: 0.75rem 0;
+}
+
+/*---app-list page---*/
+
+.app-component {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.app-list-component {
+  width: 20rem;
+  background-color: var(--light-primary-color);
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 10px 10px 20px -5px var(--dark-primary-color);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.app-list-disc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-list-disc > * {
+  margin: 0.35rem 0;
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--dark-primary-color);
+}
+
+/* .edit-app {
+  height: fit-content;
+} */
+
+/*---app-detail-page---*/
+
+.app-detail-cont {
+  padding: 2rem;
+}
+
+.app-detail-back {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.app-detail-back > * {
+  text-decoration: none;
+}
+
+.app-detail {
+  background: var(--light-primary-color);
+  border-radius: 0.5rem;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.app-img_cont {
+  width: 20%;
+}
+
+.app-img_cont img {
+  width: 100%;
+  height: 100%;
+}
+
+.app-details {
+  width: 75%;
+}
+
+.app-details > * {
+  margin: 1rem 0;
+}
+
+.app-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-name {
+  width: 80%;
+  background: var(--primary-color);
+  padding: 0.5rem 0.75rem;
+  color: var(--white-color);
+  font-weight: bold;
+  border-radius: 0.4rem;
+}
+
+.app-url {
+  padding: 0.5rem 1rem;
+  background: var(--primary-color);
+  color: white;
+  font-weight: bold;
+  border-radius: 0.3rem;
+}
+
+.app-url > * {
+  margin: 0 0.75rem;
 }
