@@ -3,14 +3,8 @@ import { useDispatch } from "react-redux";
 import { logout } from "../store/slice/loginSlice";
 import "./Layout.css";
 
-const Navbar = () => {
-  const [sideToggle, setSideToggle] = useState(false);
-
+const Navbar = ({ toggle }) => {
   const dispatch = useDispatch();
-
-  const sideToggleHandler = () => {
-    setSideToggle(!sideToggle);
-  };
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -20,7 +14,7 @@ const Navbar = () => {
     <div className="Navbar">
       <ul className="Navbar_list">
         <li>
-          <a onClick={sideToggleHandler}>
+          <a onClick={toggle}>
             <i className="fas fa-bars"></i>
           </a>
         </li>

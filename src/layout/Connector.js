@@ -1,26 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import "./Connector.css";
 import { Outlet } from "react-router";
-// import UserListPage from "../modules/UserPage/UserListPage";
 
 const Connector = () => {
-  // useEffect(() => {
-  //   localStorage.getItem("id");
-  //   // const token = localStorage.getItem("token");
-  // }, []);
+  const [toggle, setToggle] = useState(false);
+
+  const toggleMenu = () => {
+    setToggle(!toggle);
+  };
 
   return (
     <>
       <div className="Main-page">
         <div>
-          <Sidebar />
+          <Sidebar toggle={toggle} />
         </div>
         <div className="Main-page_secondary">
-          <Navbar />
+          <Navbar toggle={toggleMenu} />
           <Outlet />
-          {/* <UserListPage /> */}
         </div>
       </div>
     </>

@@ -51,6 +51,7 @@
   height: 100%;
   min-height: 100vh;
   color: var(--white-color);
+  transition: all 0.5s ease-in;
 }
 
 .Sidebar_list-head {
@@ -89,4 +90,23 @@
 
 .Sidebar_list-component a span {
   padding-left: 0.75rem;
+}
+
+.sidebar_name_active {
+  background-color: var(--dark-primary-color);
+}
+
+/*---sidebar toggle---*/
+
+.Sidebar_toggle {
+  width: 5rem;
+  background-color: var(--primary-color);
+  height: 100%;
+  min-height: 100vh;
+  color: var(--white-color);
+  transition: all 0.5s ease-in;
+}
+
+.Sidebar_toggle ul li {
+  text-align: center;
 }

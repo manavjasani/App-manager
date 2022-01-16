@@ -243,7 +243,6 @@
 }
 
 .app-name {
-  width: 80%;
   background: var(--primary-color);
   padding: 0.5rem 0.75rem;
   color: var(--white-color);
