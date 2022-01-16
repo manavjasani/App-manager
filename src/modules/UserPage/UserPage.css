@@ -65,7 +65,8 @@
   padding: 0.5rem 0;
 }
 
-.Create_user-input label {
+.Create_user-input label,
+.label-checkbox {
   font-size: 0.85rem;
 }
 
@@ -150,6 +151,10 @@
   width: 7rem;
   height: 7rem;
   margin: 0.75rem 0;
+}
+
+.user-checkbox {
+  margin-right: 0.6rem;
 }
 
 /*---app-list page---*/

@@ -250,7 +250,6 @@ const userSlice = createSlice({
       state.error = action.payload;
     },
     [clearUser.fulfilled]: (state, action) => {
-      state.loader = false;
       state.createUser = null;
       state.updateUser = null;
       state.userDetail = null;

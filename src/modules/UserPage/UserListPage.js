@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./UserPage.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser, getUserAction } from "../../store/slice/userSlice";
+import Loader from "../../components/Loading";
 
 const UserListPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const [users, setUsers] = useState([])
+  const loading = useSelector((state) => state.user.loader);
+  console.log("loading", loading);
 
   useEffect(() => {
     dispatch(clearUser());
-    setTimeout(() => {
-      dispatch(getUserAction());
-    }, 100);
+    dispatch(getUserAction());
   }, [dispatch]);
 
   const getUser = useSelector((state) => state.user.getUsers);
@@ -33,6 +33,7 @@ const UserListPage = () => {
           <span>Add User</span>
         </Link>
       </div>
+      {loading && <Loader />}
       <div className="user-list">
         {getUser &&
           getUser.map((item) => {

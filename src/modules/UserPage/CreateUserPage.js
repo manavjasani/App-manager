@@ -21,6 +21,7 @@ const CreateUserPage = ({ users }) => {
   );
   const [passwordVal, setPasswordVal] = useState("");
   const [cPasswordVal, setCPasswordVal] = useState("");
+  const [checked, setChecked] = useState(false);
 
   const params = useParams();
   const { i } = params;
@@ -65,9 +66,6 @@ const CreateUserPage = ({ users }) => {
     );
   };
 
-  console.log("imagePreview", imagePreview);
-  console.log("image", image);
-
   const userNameChangeHandler = (e) => {
     setUserName(e.target.value);
     setUserNameErr("");
@@ -87,6 +85,10 @@ const CreateUserPage = ({ users }) => {
     setCPasswordVal(e.target.value);
     setCPasswordErr("");
     setErr("");
+  };
+
+  const checkedHandler = () => {
+    setChecked(!checked);
   };
 
   const [cPasswordErr, setCPasswordErr] = useState("");
@@ -207,26 +209,47 @@ const CreateUserPage = ({ users }) => {
           />
           {userNameErr && <span className="err-msg">{userNameErr}</span>}
         </div>
-        <div className="Create_user-input">
-          <label>Password</label>
-          <input
-            type="password"
-            placeholder="Enter Password"
-            value={passwordVal}
-            onChange={passwordValChangeHandler}
-          />
-          {passwordErr && <span className="err-msg">{passwordErr}</span>}
-        </div>
-        <div className="Create_user-input">
-          <label>Confirm Password</label>
-          <input
-            type="password"
-            placeholder="Enter Confirm Password"
-            value={cPasswordVal}
-            onChange={cPasswordValChangeHandler}
-          />
-          {cPasswordErr && <span className="err-msg">{cPasswordErr}</span>}
-        </div>
+
+        {i && (
+          <div>
+            <input
+              type="checkbox"
+              id="check"
+              name="check"
+              value={checked}
+              onChange={checkedHandler}
+              className="user-checkbox"
+            />
+            <label htmlFor="check" className="label-checkbox">
+              Will you want to change password ?
+            </label>
+          </div>
+        )}
+        {(!i || checked) && (
+          <>
+            <div className="Create_user-input">
+              <label>Password</label>
+              <input
+                type="password"
+                placeholder="Enter Password"
+                value={passwordVal}
+                onChange={passwordValChangeHandler}
+              />
+              {passwordErr && <span className="err-msg">{passwordErr}</span>}
+            </div>
+            <div className="Create_user-input">
+              <label>Confirm Password</label>
+              <input
+                type="password"
+                placeholder="Enter Confirm Password"
+                value={cPasswordVal}
+                onChange={cPasswordValChangeHandler}
+              />
+              {cPasswordErr && <span className="err-msg">{cPasswordErr}</span>}
+            </div>
+          </>
+        )}
+
         {err && <span className="err-msg">{err}</span>}
 
         <div className="btn-container">
