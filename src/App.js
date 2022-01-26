@@ -12,6 +12,8 @@ import ListAppPage from "./modules/AppPage/ListAppPage";
 import CreateAppPage from "./modules/AppPage/CreateAppPage";
 import EditAppPage from "./modules/AppPage/EditAppPage";
 import AppDetailPage from "./modules/AppPage/AppDetailPage";
+import AddIosPage from "./modules/AppPage/AddIosPage";
+import EditIosPage from "./modules/AppPage/EditIosPage";
 
 function App() {
   const userAuth = useSelector((state) => state.login.isUser);
@@ -38,6 +40,8 @@ function App() {
         { path: "create-application", element: <CreateAppPage /> },
         { path: "applications/edit-application/:i", element: <EditAppPage /> },
         { path: "applications/:i", element: <AppDetailPage /> },
+        { path: "applications/:i/add-ios", element: <AddIosPage /> },
+        { path: "/applications/:id/edit-ios", element: <EditIosPage /> },
       ],
     },
   ]);

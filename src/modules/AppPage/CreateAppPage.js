@@ -87,6 +87,10 @@ const CreateAppPage = ({ appDetail }) => {
     navigate("/applications");
   };
 
+  const cancelBtnEditHandler = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="App-manager-main-content">
       <h2 className="user-head">
@@ -107,7 +111,7 @@ const CreateAppPage = ({ appDetail }) => {
           <label>Description</label>
           <textarea
             type="text"
-            placeholder="Enter Yout App Description here"
+            placeholder="Enter Your App Description here"
             value={appDescVal}
             onChange={appDescChangeHandler}
           />
@@ -158,23 +162,30 @@ const CreateAppPage = ({ appDetail }) => {
 
         <div className="btn-container">
           {i ? (
-            <button
-              className="comman-btn"
-              onClick={(e) => userSubmitHandler(e)}
-            >
-              Update
-            </button>
+            <>
+              <button
+                className="comman-btn"
+                onClick={(e) => userSubmitHandler(e)}
+              >
+                Update
+              </button>
+              <button className="comman-btn" onClick={cancelBtnEditHandler}>
+                Cancel
+              </button>
+            </>
           ) : (
-            <button
-              className="comman-btn"
-              onClick={(e) => userSubmitHandler(e)}
-            >
-              Submit
-            </button>
+            <>
+              <button
+                className="comman-btn"
+                onClick={(e) => userSubmitHandler(e)}
+              >
+                Submit
+              </button>
+              <button className="comman-btn" onClick={cancelBtnHandler}>
+                Cancel
+              </button>
+            </>
           )}
-          <button className="comman-btn" onClick={cancelBtnHandler}>
-            Cancel
-          </button>
         </div>
       </div>
     </div>

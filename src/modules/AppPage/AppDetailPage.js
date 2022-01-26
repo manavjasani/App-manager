@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { getAppDetailAction } from "../../store/slice/appSlice";
+import { getAppDetailAction, getIosAction } from "../../store/slice/appSlice";
 
 const AppDetailPage = () => {
   const dispatch = useDispatch();
@@ -11,10 +11,17 @@ const AppDetailPage = () => {
   const { i } = params;
 
   const appDetail = useSelector((state) => state.apps.appDetail);
-  console.log("appDetail", appDetail);
+  // console.log("appDetail", appDetail);
+
+  const iosDetail = useSelector((state) => state.apps.getIos);
+  console.log("iosDetail", iosDetail);
 
   useEffect(() => {
     dispatch(getAppDetailAction(i));
+  }, []);
+
+  useEffect(() => {
+    dispatch(getIosAction());
   }, []);
 
   const editButtonHandler = (id) => {
@@ -51,6 +58,41 @@ const AppDetailPage = () => {
           <div className="app-url">
             <span>Android : </span>
             <span>{appDetail?.androidIcon}</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div>
+          <div>
+            <span>Ios</span>
+            <Link to={`/applications/${i}/add-ios`} className="add-btn">
+              <i className="fas fa-plus"></i>
+              <span>Add</span>
+            </Link>
+          </div>
+          <div>
+            <table>
+              <thead>
+                <th>Version</th>
+                <th>Version Name</th>
+                <th>Title</th>
+                <th>Action</th>
+              </thead>
+              {iosDetail.map((item, i) => {
+                return (
+                  <div key={i}>
+                    <td>{item.curVersion}</td>
+                    <td>{item.versionName}</td>
+                    <td>{item.title}</td>
+                    <td>
+                      <Link to={`/applications/${item.id}/edit-ios`}>
+                        <i className="fas fa-edit"></i>
+                      </Link>
+                    </td>
+                  </div>
+                );
+              })}
+            </table>
           </div>
         </div>
       </div>
