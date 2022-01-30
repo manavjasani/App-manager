@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
-import { createIosAction } from "../../store/slice/appSlice";
+import { useNavigate, useParams } from "react-router";
+import { createIosAction, updateIosAction } from "../../store/slice/appSlice";
 
 const AddIosPage = ({ iosDetail }) => {
   console.log("iosDetail", iosDetail);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const params = useParams();
+  const { id } = params;
 
   const [titleVal, setTitleVal] = useState(
     iosDetail?.title ? iosDetail?.title : ""
@@ -65,13 +67,19 @@ const AddIosPage = ({ iosDetail }) => {
       url: url,
     };
     console.log("data", data);
-    dispatch(createIosAction(data));
+    {
+      id
+        ? dispatch(updateIosAction({ data, id }))
+        : dispatch(createIosAction(data));
+    }
     navigate(-1);
   };
 
   return (
     <div className="App-manager-main-content">
-      <h2 className="user-head">Add Ios Version</h2>
+      <h2 className="user-head">
+        {id ? "Edit Ios Version" : "Add Ios Version"}
+      </h2>
       <div className="Create_user-page">
         <div className="Create_user-input">
           <label>Platform</label>
@@ -132,31 +140,24 @@ const AddIosPage = ({ iosDetail }) => {
           />
         </div>
         <div className="btn-container">
-          {/* {i ? (
-            <>
-              <button
-                className="comman-btn"
-                onClick={(e) => userSubmitHandler(e)}
-              >
-                Update
-              </button>
-              <button className="comman-btn" onClick={cancelBtnEditHandler}>
-                Cancel
-              </button>
-            </>
-          ) : ( */}
-          <>
+          {id ? (
+            <button
+              className="comman-btn"
+              onClick={(e) => userSubmitHandler(e)}
+            >
+              Update
+            </button>
+          ) : (
             <button
               className="comman-btn"
               onClick={(e) => userSubmitHandler(e)}
             >
               Submit
             </button>
-            <button className="comman-btn" onClick={cancelBtnHandler}>
-              Cancel
-            </button>
-          </>
-          {/* )} */}
+          )}
+          <button className="comman-btn" onClick={cancelBtnHandler}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>

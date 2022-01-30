@@ -16,10 +16,10 @@ export const createAppAction = createAsyncThunk(
     try {
       const collectionApps = collection(db, "appData");
       const response = await addDoc(collectionApps, data);
-      console.log("responseApps", response);
+      console.log("createApps", response);
       return response;
     } catch (error) {
-      console.log("error", error);
+      console.log("createAppError", error);
       thunkAPI.rejectWithValue(error);
     }
   }
@@ -31,10 +31,25 @@ export const createIosAction = createAsyncThunk(
     try {
       const collectionApps = collection(db, "appIosData");
       const response = await addDoc(collectionApps, data);
-      console.log("responseApps", response);
+      console.log("createIos", response);
       return response;
     } catch (error) {
-      console.log("error", error);
+      console.log("createIosError", error);
+      thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const createAndroidAction = createAsyncThunk(
+  "createAndroidAction",
+  async (data, thunkAPI) => {
+    try {
+      const collectionApps = collection(db, "appAndroidData");
+      const response = await addDoc(collectionApps, data);
+      console.log("createAndroid", response);
+      return response;
+    } catch (error) {
+      console.log("createAndroidError", error);
       thunkAPI.rejectWithValue(error);
     }
   }
@@ -103,6 +118,25 @@ export const getIosAction = createAsyncThunk(
   }
 );
 
+export const getAndroidAction = createAsyncThunk(
+  "getAndroidAction",
+  async (data, thunkAPI) => {
+    const usersCollection = collection(db, "appAndroidData");
+    try {
+      const response = await getDocs(usersCollection);
+      const resData = response.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      console.log("getAndroidActionresponse", resData);
+      return resData;
+    } catch (error) {
+      console.log("error", error);
+      thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const getAppDetailAction = createAsyncThunk(
   "getAppDetailAction",
   async (id, thunkAPI) => {
@@ -133,11 +167,54 @@ export const getIosDetailAction = createAsyncThunk(
   }
 );
 
+export const getAndroidDetailAction = createAsyncThunk(
+  "getAndroidDetailAction",
+  async (id, thunkAPI) => {
+    try {
+      const docRef = doc(db, "appAndroidData", id);
+      const docSnap = await getDoc(docRef);
+      console.log("docSnap", docSnap.data());
+      return docSnap.data();
+    } catch (error) {
+      console.log("error", error);
+      thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const updateAppAction = createAsyncThunk(
   "updateAppAction",
   async (data, thunkAPI) => {
     try {
       const docRef = doc(db, "appData", data.id);
+      const docSnap = await updateDoc(docRef, data.data);
+      return docSnap.data;
+    } catch (error) {
+      console.log("error", error);
+      thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const updateIosAction = createAsyncThunk(
+  "updateIosAction",
+  async (data, thunkAPI) => {
+    try {
+      const docRef = doc(db, "appIosData", data.id);
+      const docSnap = await updateDoc(docRef, data.data);
+      return docSnap.data;
+    } catch (error) {
+      console.log("error", error);
+      thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const updateAndroidAction = createAsyncThunk(
+  "updateAndroidAction",
+  async (data, thunkAPI) => {
+    try {
+      const docRef = doc(db, "appAndroidData", data.id);
       const docSnap = await updateDoc(docRef, data.data);
       return docSnap.data;
     } catch (error) {
@@ -159,10 +236,13 @@ const appSlice = createSlice({
   initialState: {
     createApp: null,
     createIos: null,
+    createAndroid: null,
     getApps: [],
     getIos: [],
+    getAndroid: [],
     appDetail: null,
     iosDetail: null,
+    androidDetail: null,
     error: null,
     loader: false,
   },
@@ -190,6 +270,17 @@ const appSlice = createSlice({
       state.loader = false;
       state.error = action.payload;
     },
+    [createAndroidAction.pending]: (state, action) => {
+      state.loader = true;
+    },
+    [createAndroidAction.fulfilled]: (state, action) => {
+      state.loader = false;
+      state.createAndroid = action.payload;
+    },
+    [createAndroidAction.rejected]: (state, action) => {
+      state.loader = false;
+      state.error = action.payload;
+    },
     [getAppAction.pending]: (state, action) => {
       state.loader = true;
     },
@@ -212,6 +303,17 @@ const appSlice = createSlice({
       state.loader = false;
       state.error = action.payload;
     },
+    [getAndroidAction.pending]: (state, action) => {
+      state.loader = true;
+    },
+    [getAndroidAction.fulfilled]: (state, action) => {
+      state.loader = false;
+      state.getAndroid = action.payload;
+    },
+    [getAndroidAction.rejected]: (state, action) => {
+      state.loader = false;
+      state.error = action.payload;
+    },
     [getAppDetailAction.pending]: (state, action) => {
       state.loader = true;
     },
@@ -231,6 +333,17 @@ const appSlice = createSlice({
       state.iosDetail = action.payload;
     },
     [getIosDetailAction.rejected]: (state, action) => {
+      state.loader = false;
+      state.error = action.payload;
+    },
+    [getAndroidDetailAction.pending]: (state, action) => {
+      state.loader = true;
+    },
+    [getAndroidDetailAction.fulfilled]: (state, action) => {
+      state.loader = false;
+      state.androidDetail = action.payload;
+    },
+    [getAndroidDetailAction.rejected]: (state, action) => {
       state.loader = false;
       state.error = action.payload;
     },

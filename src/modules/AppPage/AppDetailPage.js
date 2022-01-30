@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { getAppDetailAction, getIosAction } from "../../store/slice/appSlice";
+import {
+  getAndroidAction,
+  getAppDetailAction,
+  getIosAction,
+} from "../../store/slice/appSlice";
 
 const AppDetailPage = () => {
   const dispatch = useDispatch();
@@ -16,6 +20,9 @@ const AppDetailPage = () => {
   const iosDetail = useSelector((state) => state.apps.getIos);
   console.log("iosDetail", iosDetail);
 
+  const androidDetail = useSelector((state) => state.apps.getAndroid);
+  console.log("androidDetail", androidDetail);
+
   useEffect(() => {
     dispatch(getAppDetailAction(i));
   }, []);
@@ -24,8 +31,11 @@ const AppDetailPage = () => {
     dispatch(getIosAction());
   }, []);
 
+  useEffect(() => {
+    dispatch(getAndroidAction());
+  }, []);
+
   const editButtonHandler = (id) => {
-    console.log("id", id);
     navigate(`/applications/edit-application/${id}`);
   };
 
@@ -73,23 +83,64 @@ const AppDetailPage = () => {
           <div>
             <table>
               <thead>
-                <th>Version</th>
-                <th>Version Name</th>
-                <th>Title</th>
-                <th>Action</th>
+                <tr>
+                  <th>Version</th>
+                  <th>Version Name</th>
+                  <th>Title</th>
+                  <th>Action</th>
+                </tr>
               </thead>
-              {iosDetail.map((item, i) => {
+              {iosDetail?.map((item, i) => {
                 return (
-                  <div key={i}>
-                    <td>{item.curVersion}</td>
-                    <td>{item.versionName}</td>
-                    <td>{item.title}</td>
-                    <td>
-                      <Link to={`/applications/${item.id}/edit-ios`}>
-                        <i className="fas fa-edit"></i>
-                      </Link>
-                    </td>
-                  </div>
+                  <tbody key={i}>
+                    <tr>
+                      <td>{item?.curVersion}</td>
+                      <td>{item?.versionName}</td>
+                      <td>{item?.title}</td>
+                      <td>
+                        <Link to={`/applications/${item?.id}/edit-ios`}>
+                          <i className="fas fa-edit"></i>
+                        </Link>
+                      </td>
+                    </tr>
+                  </tbody>
+                );
+              })}
+            </table>
+          </div>
+        </div>
+        <div>
+          <div>
+            <span>Ios</span>
+            <Link to={`/applications/${i}/add-android`} className="add-btn">
+              <i className="fas fa-plus"></i>
+              <span>Add</span>
+            </Link>
+          </div>
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Version</th>
+                  <th>Version Name</th>
+                  <th>Title</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              {androidDetail?.map((item, i) => {
+                return (
+                  <tbody key={i}>
+                    <tr>
+                      <td>{item?.curVersion}</td>
+                      <td>{item?.versionName}</td>
+                      <td>{item?.title}</td>
+                      <td>
+                        <Link to={`/applications/${item?.id}/edit-android`}>
+                          <i className="fas fa-edit"></i>
+                        </Link>
+                      </td>
+                    </tr>
+                  </tbody>
                 );
               })}
             </table>
