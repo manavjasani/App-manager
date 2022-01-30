@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import {
+  clearAppDetailAction,
   getAndroidAction,
   getAppDetailAction,
   getIosAction,
@@ -13,6 +14,7 @@ const AppDetailPage = () => {
   const navigate = useNavigate();
   const params = useParams();
   const { i } = params;
+  console.log("i", i);
 
   const appDetail = useSelector((state) => state.apps.appDetail);
   // console.log("appDetail", appDetail);
@@ -25,15 +27,18 @@ const AppDetailPage = () => {
 
   useEffect(() => {
     dispatch(getAppDetailAction(i));
+    dispatch(getIosAction(i));
+    dispatch(getAndroidAction(i));
+    dispatch(clearAppDetailAction());
   }, []);
 
-  useEffect(() => {
-    dispatch(getIosAction());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getIosAction());
+  // }, []);
 
-  useEffect(() => {
-    dispatch(getAndroidAction());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getAndroidAction());
+  // }, []);
 
   const editButtonHandler = (id) => {
     navigate(`/applications/edit-application/${id}`);
@@ -71,16 +76,17 @@ const AppDetailPage = () => {
           </div>
         </div>
       </div>
-      <div>
-        <div>
+
+      <div className="app-category">
+        <div className="app-category_unique">
           <div>
-            <span>Ios</span>
+            <span className="app-category_name">Ios</span>
             <Link to={`/applications/${i}/add-ios`} className="add-btn">
               <i className="fas fa-plus"></i>
               <span>Add</span>
             </Link>
           </div>
-          <div>
+          <div className="app-table">
             <table>
               <thead>
                 <tr>
@@ -90,15 +96,15 @@ const AppDetailPage = () => {
                   <th>Action</th>
                 </tr>
               </thead>
-              {iosDetail?.map((item, i) => {
+              {iosDetail?.map((item) => {
                 return (
-                  <tbody key={i}>
+                  <tbody key={item.id}>
                     <tr>
                       <td>{item?.curVersion}</td>
                       <td>{item?.versionName}</td>
                       <td>{item?.title}</td>
                       <td>
-                        <Link to={`/applications/${item?.id}/edit-ios`}>
+                        <Link to={`/applications/${i}/edit-ios/${item?.id}`}>
                           <i className="fas fa-edit"></i>
                         </Link>
                       </td>
@@ -109,15 +115,15 @@ const AppDetailPage = () => {
             </table>
           </div>
         </div>
-        <div>
+        <div className="app-category_unique">
           <div>
-            <span>Ios</span>
+            <span className="app-category_name">Android</span>
             <Link to={`/applications/${i}/add-android`} className="add-btn">
               <i className="fas fa-plus"></i>
               <span>Add</span>
             </Link>
           </div>
-          <div>
+          <div className="app-table">
             <table>
               <thead>
                 <tr>

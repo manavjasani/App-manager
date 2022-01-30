@@ -14,6 +14,8 @@ import EditAppPage from "./modules/AppPage/EditAppPage";
 import AppDetailPage from "./modules/AppPage/AppDetailPage";
 import AddIosPage from "./modules/AppPage/AddIosPage";
 import EditIosPage from "./modules/AppPage/EditIosPage";
+import AddAndroidPage from "./modules/AppPage/AddAndroidPage";
+import EditAndroidPage from "./modules/AppPage/EditAndroidPage";
 
 function App() {
   const userAuth = useSelector((state) => state.login.isUser);
@@ -41,7 +43,16 @@ function App() {
         { path: "applications/edit-application/:i", element: <EditAppPage /> },
         { path: "applications/:i", element: <AppDetailPage /> },
         { path: "applications/:i/add-ios", element: <AddIosPage /> },
-        { path: "/applications/:id/edit-ios", element: <EditIosPage /> },
+        {
+          path: "/applications/:i/edit-ios/:id",
+          element: <EditIosPage />,
+        },
+        { path: "applications/:i", element: <AppDetailPage /> },
+        { path: "applications/:i/add-android", element: <AddAndroidPage /> },
+        {
+          path: "/applications/:id/edit-android",
+          element: <EditAndroidPage />,
+        },
       ],
     },
   ]);

@@ -7,6 +7,9 @@ import AddIosPage from "./AddIosPage";
 const EditIosPage = () => {
   const params = useParams();
   const { id } = params;
+  console.log("id", id);
+  const { i } = params;
+  console.log("i", i);
 
   const dispatch = useDispatch();
 
@@ -17,7 +20,7 @@ const EditIosPage = () => {
 
   useEffect(() => {
     if (!iosDetail && id) {
-      dispatch(getIosDetailAction(id));
+      dispatch(getIosDetailAction({ id, i }));
     } else {
       setIsLoading(false);
     }

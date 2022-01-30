@@ -261,3 +261,42 @@
 .app-url > * {
   margin: 0 0.75rem;
 }
+
+/*---app-category---*/
+
+.app-category {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.app-category_unique {
+  border-radius: 10px;
+  padding: 1rem;
+  background: var(--light-primary-color);
+}
+
+.app-category_name {
+  margin-right: 1rem;
+  font-size: 1.5rem;
+  color: var(--dark-primary-color);
+}
+
+.app-table {
+  background: var(--white-color);
+  padding: 0.5rem;
+  margin-top: 1rem;
+  border-radius: 7px;
+}
+
+.app-table table,
+.app-table td,
+.app-table th {
+  padding: 0.3rem;
+  border: 1px solid var(--dark-primary-color);
+  text-align: center;
+}
+
+.app-table table {
+  border-collapse: collapse;
+}

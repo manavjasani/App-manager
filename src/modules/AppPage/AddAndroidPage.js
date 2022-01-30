@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { createIosAction, updateIosAction } from "../../store/slice/appSlice";
+import {
+  createAndroidAction,
+  updateAndroidAction,
+} from "../../store/slice/appSlice";
 
-const AddIosPage = ({ iosDetail }) => {
-  console.log("iosDetail", iosDetail);
+const AddAndroidPage = ({ androidDetail }) => {
+  console.log("androidDetail", androidDetail);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
@@ -14,21 +17,21 @@ const AddIosPage = ({ iosDetail }) => {
   console.log("i", i);
 
   const [titleVal, setTitleVal] = useState(
-    iosDetail?.title ? iosDetail?.title : ""
+    androidDetail?.title ? androidDetail?.title : ""
   );
   const [descVal, setDescVal] = useState(
-    iosDetail?.description ? iosDetail?.description : ""
+    androidDetail?.description ? androidDetail?.description : ""
   );
   const [minVers, setMinVers] = useState(
-    iosDetail?.minVersion ? iosDetail?.minVersion : ""
+    androidDetail?.minVersion ? androidDetail?.minVersion : ""
   );
   const [curVers, setCurVers] = useState(
-    iosDetail?.curVersion ? iosDetail?.curVersion : ""
+    androidDetail?.curVersion ? androidDetail?.curVersion : ""
   );
   const [versName, setVersName] = useState(
-    iosDetail?.versionName ? iosDetail?.versionName : ""
+    androidDetail?.versionName ? androidDetail?.versionName : ""
   );
-  const [url, setUrl] = useState(iosDetail?.url ? iosDetail?.url : "");
+  const [url, setUrl] = useState(androidDetail?.url ? androidDetail?.url : "");
 
   const titleValChangeHandler = (e) => {
     setTitleVal(e.target.value);
@@ -61,7 +64,7 @@ const AddIosPage = ({ iosDetail }) => {
   const userSubmitHandler = (e) => {
     e.preventDefault();
     const data = {
-      platform: "Ios",
+      platform: "Android",
       title: titleVal,
       description: descVal,
       minVersion: minVers,
@@ -72,8 +75,8 @@ const AddIosPage = ({ iosDetail }) => {
     console.log("data", data);
     {
       id && i
-        ? dispatch(updateIosAction({ data, id, i }))
-        : dispatch(createIosAction({ data, id: i }));
+        ? dispatch(updateAndroidAction({ data, id, i }))
+        : dispatch(createAndroidAction({ data, id: i }));
     }
     navigate(-1);
   };
@@ -81,12 +84,12 @@ const AddIosPage = ({ iosDetail }) => {
   return (
     <div className="App-manager-main-content">
       <h2 className="user-head">
-        {id ? "Edit Ios Version" : "Add Ios Version"}
+        {id ? "Edit Android Version" : "Add Android Version"}
       </h2>
       <div className="Create_user-page">
         <div className="Create_user-input">
           <label>Platform</label>
-          <input type="text" defaultValue="Ios" disabled />
+          <input type="text" defaultValue="Android" disabled />
         </div>
         <div className="Create_user-input">
           <label>Title</label>
@@ -167,4 +170,4 @@ const AddIosPage = ({ iosDetail }) => {
   );
 };
 
-export default AddIosPage;
+export default AddAndroidPage;

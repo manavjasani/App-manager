@@ -29,8 +29,8 @@ export const createIosAction = createAsyncThunk(
   "createIosAction",
   async (data, thunkAPI) => {
     try {
-      const collectionApps = collection(db, "appIosData");
-      const response = await addDoc(collectionApps, data);
+      const collectionApps = collection(db, `appData/${data.id}/appIosData`);
+      const response = await addDoc(collectionApps, data.data);
       console.log("createIos", response);
       return response;
     } catch (error) {
@@ -44,8 +44,11 @@ export const createAndroidAction = createAsyncThunk(
   "createAndroidAction",
   async (data, thunkAPI) => {
     try {
-      const collectionApps = collection(db, "appAndroidData");
-      const response = await addDoc(collectionApps, data);
+      const collectionApps = collection(
+        db,
+        `appData/${data.id}/appAndroidData`
+      );
+      const response = await addDoc(collectionApps, data.data);
       console.log("createAndroid", response);
       return response;
     } catch (error) {
@@ -101,8 +104,8 @@ export const getAppAction = createAsyncThunk(
 
 export const getIosAction = createAsyncThunk(
   "getIosAction",
-  async (data, thunkAPI) => {
-    const usersCollection = collection(db, "appIosData");
+  async (id, thunkAPI) => {
+    const usersCollection = collection(db, `appData/${id}/appIosData`);
     try {
       const response = await getDocs(usersCollection);
       const resData = response.docs.map((doc) => ({
@@ -120,8 +123,8 @@ export const getIosAction = createAsyncThunk(
 
 export const getAndroidAction = createAsyncThunk(
   "getAndroidAction",
-  async (data, thunkAPI) => {
-    const usersCollection = collection(db, "appAndroidData");
+  async (id, thunkAPI) => {
+    const usersCollection = collection(db, `appData/${id}/appAndroidData`);
     try {
       const response = await getDocs(usersCollection);
       const resData = response.docs.map((doc) => ({
@@ -154,9 +157,9 @@ export const getAppDetailAction = createAsyncThunk(
 
 export const getIosDetailAction = createAsyncThunk(
   "getIosDetailAction",
-  async (id, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      const docRef = doc(db, "appIosData", id);
+      const docRef = doc(db, `appData/${data.i}/appIosData`, data.id);
       const docSnap = await getDoc(docRef);
       console.log("docSnap", docSnap.data());
       return docSnap.data();
@@ -169,9 +172,9 @@ export const getIosDetailAction = createAsyncThunk(
 
 export const getAndroidDetailAction = createAsyncThunk(
   "getAndroidDetailAction",
-  async (id, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      const docRef = doc(db, "appAndroidData", id);
+      const docRef = doc(db, `appData/${data.i}/appAndroidData`, data.id);
       const docSnap = await getDoc(docRef);
       console.log("docSnap", docSnap.data());
       return docSnap.data();
@@ -200,8 +203,10 @@ export const updateIosAction = createAsyncThunk(
   "updateIosAction",
   async (data, thunkAPI) => {
     try {
-      const docRef = doc(db, "appIosData", data.id);
+      console.log("data", data);
+      const docRef = doc(db, `appData/${data.i}/appIosData`, data.id);
       const docSnap = await updateDoc(docRef, data.data);
+      console.log("docSnap", docSnap);
       return docSnap.data;
     } catch (error) {
       console.log("error", error);
@@ -214,7 +219,7 @@ export const updateAndroidAction = createAsyncThunk(
   "updateAndroidAction",
   async (data, thunkAPI) => {
     try {
-      const docRef = doc(db, "appAndroidData", data.id);
+      const docRef = doc(db, `appData/${data.i}/appAndroidData`, data.id);
       const docSnap = await updateDoc(docRef, data.data);
       return docSnap.data;
     } catch (error) {
@@ -349,6 +354,8 @@ const appSlice = createSlice({
     },
     [clearAppDetailAction.fulfilled]: (state, action) => {
       state.appDetail = null;
+      state.iosDetail = null;
+      state.androidDetail = null;
     },
   },
 });
